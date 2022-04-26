@@ -59,7 +59,7 @@ public class Main extends Application {
                     text = DES.encode(Tf[Type.PLAIN.ordinal()].getText(),
                             Tf[Type.KEY.ordinal()].getText());
                 } else if (group.getSelectedToggle().getUserData().equals("RC4")) {
-                    text = RC4.decode(Tf[Type.CIPHER.ordinal()].getText(),
+                    text = RC4.encode(Tf[Type.PLAIN.ordinal()].getText(),
                             Tf[Type.KEY.ordinal()].getText());
                 } else if (group.getSelectedToggle().getUserData().equals("Caesar")) {
                     text = Caesar.encode(Tf[Type.PLAIN.ordinal()].getText(),
@@ -114,7 +114,7 @@ public class Main extends Application {
         });
 
         Scene scene = new Scene(borderPane, 400, 200);
-        primaryStage.setTitle("DES");
+        primaryStage.setTitle("cryptography");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
