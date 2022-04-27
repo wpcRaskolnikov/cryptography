@@ -20,6 +20,7 @@ public class Main extends Application {
     public void start(final Stage primaryStage) {
 
         RadioButton[] selections = new RadioButton[]{new RadioButton("Caesar"),
+                new RadioButton("Affine"), new RadioButton("Vigenere"),
                 new RadioButton("RC4"), new RadioButton("DES")};
         int buttonAmount = 4;
         HBox buttonBox = new HBox(buttonAmount);
@@ -41,10 +42,12 @@ public class Main extends Application {
 
         buttonBox.getChildren().addAll(enButton, deButton, uppButton, lowButton);
 
+        int i = 8;
         for (RadioButton selection : selections) {
             selection.setToggleGroup(group);
-            buttonBox.getChildren().add(selection);
+            mainPane.add(selection, i/4, i%4);
             selection.setUserData(selection.getText());
+            i++;
         }
 
         enButton.setOnAction(e -> {
@@ -64,6 +67,16 @@ public class Main extends Application {
                 } else if (group.getSelectedToggle().getUserData().equals("Caesar")) {
                     text = Caesar.encode(Tf[Type.PLAIN.ordinal()].getText(),
                             Integer.parseInt(Tf[Type.KEY.ordinal()].getText()) % 26);
+                } else if (group.getSelectedToggle().getUserData().equals("Affine")) {
+                    String str = Tf[Type.KEY.ordinal()].getText();
+                    int[] key = new int[2];
+                    key[0] = Integer.parseInt(str.split(" ")[0]);
+                    key[1] = Integer.parseInt(str.split(" ")[1]);
+                    text = Affine.encode(Tf[Type.PLAIN.ordinal()].getText(),
+                            key);
+                } else if (group.getSelectedToggle().getUserData().equals("Vigenere")) {
+                    text = Vigenere.encode(Tf[Type.PLAIN.ordinal()].getText(),
+                            Tf[Type.KEY.ordinal()].getText());
                 }
                 Tf[Type.CIPHER.ordinal()].setText(text);
             } catch (Exception ex) {
@@ -88,6 +101,16 @@ public class Main extends Application {
                 } else if (group.getSelectedToggle().getUserData().equals("Caesar")) {
                     text = Caesar.decode(Tf[Type.CIPHER.ordinal()].getText(),
                             Integer.parseInt(Tf[Type.KEY.ordinal()].getText()) % 26);
+                } else if (group.getSelectedToggle().getUserData().equals("Affine")) {
+                    String str = Tf[Type.KEY.ordinal()].getText();
+                    int[] key = new int[2];
+                    key[0] = Integer.parseInt(str.split(" ")[0]);
+                    key[1] = Integer.parseInt(str.split(" ")[1]);
+                    text = Affine.decode(Tf[Type.CIPHER.ordinal()].getText(),
+                            key);
+                } else if (group.getSelectedToggle().getUserData().equals("Vigenere")) {
+                    text = Vigenere.decode(Tf[Type.CIPHER.ordinal()].getText(),
+                            Tf[Type.KEY.ordinal()].getText());
                 }
                 Tf[Type.PLAIN.ordinal()].setText(text);
             } catch (Exception ex) {
@@ -113,7 +136,7 @@ public class Main extends Application {
             }
         });
 
-        Scene scene = new Scene(borderPane, 400, 200);
+        Scene scene = new Scene(borderPane, 500, 300);
         primaryStage.setTitle("cryptography");
         primaryStage.setScene(scene);
         primaryStage.show();
