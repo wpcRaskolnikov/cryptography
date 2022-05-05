@@ -293,7 +293,6 @@ public class DES {
     }
 
     static String encode(String plainText, String key) {
-
         boolean[] keyBin = strToBin(key);
         boolean[] plainBin = strToBin(plainText);
         boolean[] end = new boolean[64 - (plainBin.length % 64)];

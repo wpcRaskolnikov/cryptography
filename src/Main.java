@@ -21,7 +21,7 @@ public class Main extends Application {
 
         RadioButton[] selections = new RadioButton[]{new RadioButton("Caesar"),
                 new RadioButton("Affine"), new RadioButton("Vigenere"),
-                new RadioButton("RC4"), new RadioButton("DES")};
+                new RadioButton("RC4"), new RadioButton("DES"),new RadioButton("SM4")};
         int buttonAmount = 4;
         HBox buttonBox = new HBox(buttonAmount);
         GridPane mainPane = new GridPane();
@@ -77,6 +77,9 @@ public class Main extends Application {
                 } else if (group.getSelectedToggle().getUserData().equals("Vigenere")) {
                     text = Vigenere.encode(Tf[Type.PLAIN.ordinal()].getText(),
                             Tf[Type.KEY.ordinal()].getText());
+                }else if (group.getSelectedToggle().getUserData().equals("SM4")) {
+                    text = SM4.encode(Tf[Type.PLAIN.ordinal()].getText(),
+                            Tf[Type.KEY.ordinal()].getText());
                 }
                 Tf[Type.CIPHER.ordinal()].setText(text);
             } catch (Exception ex) {
@@ -110,6 +113,9 @@ public class Main extends Application {
                             key);
                 } else if (group.getSelectedToggle().getUserData().equals("Vigenere")) {
                     text = Vigenere.decode(Tf[Type.CIPHER.ordinal()].getText(),
+                            Tf[Type.KEY.ordinal()].getText());
+                }else if (group.getSelectedToggle().getUserData().equals("SM4")) {
+                    text = SM4.decode(Tf[Type.CIPHER.ordinal()].getText(),
                             Tf[Type.KEY.ordinal()].getText());
                 }
                 Tf[Type.PLAIN.ordinal()].setText(text);
